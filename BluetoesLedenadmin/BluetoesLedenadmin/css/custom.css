@@ -1,0 +1,27 @@
+@media (min-width: 980px) {
+    #sidebar {
+        width: 180px;
+        float: right;
+        padding: 15px;
+        text-align: center;
+    }
+
+    #main {
+        margin-right: 180px;
+        padding: 0 15px 15px 15px;
+    }
+}
+
+@media (max-width: 979px) {
+    #sidebar {
+        display: none;
+    }
+}
+
+.panel h1 {
+    margin: 0;
+}
+
+.panel p {
+    margin: 10px 0 0 0;
+}

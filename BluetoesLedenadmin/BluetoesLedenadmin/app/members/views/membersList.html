@@ -1,0 +1,28 @@
+<h1>Members list</h1>
+<div>
+	<a href="#newMember">Add member</a>	
+</div><br>
+<!--<div>Select type: <select ng-model="types.selectedType" ng-options="type.type for type in types.availableTypes track by type.id" required></select></div>-->
+<br>
+<div>
+    Dit zijn de leden: {{members}}
+	<table>
+		<tr>
+			<td style="width:30px"><b>id</b></td>
+			<td style="width:200px"><b>e-mail</b></td>
+			<td style="width:100px"><b>type</b></td>
+            <td style="width:200px"><b>name</b></td>
+			<td style="width:50px"></td>
+			<td style="width:50px"></td>
+			<td style="width:50px"></td>
+		</tr>
+        <tr *ngFor="let member of members">
+            <td>{{member.Id}}</td>
+            <td>{{member.Email}}</td>
+            <td>{{member.Type}}</td>
+            <td><a href="#viewMember/{{member.Id}}">View</a></td>
+            <td><a href="#editMember/{{member.Id}}">Edit</a></td>
+            <td><a href="#unregisterMember/{{member.Id}}">Unregister</a></td>
+        </tr>
+	</table>
+</div>
