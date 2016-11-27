@@ -16,40 +16,40 @@ require('rxjs/add/observable/forkJoin');
 require('rxjs/add/operator/toPromise');
 var member_1 = require('../objects/member');
 var MembersService = (function () {
-    /**MEMBERS: Member[] = [
-        { Id: 1, Email: 'asd@as.nl', Type: 'member'},
-        { Id: 2, Email: 'test@as.nl', Type: 'member'},
-        { Id: 3, Email: 'HelloWorld@as.nl', Type: 'member'}
-    ];*/
     function MembersService(http) {
         this.http = http;
         this.url = "http://test.bluetoes.net/api/";
     }
     MembersService.prototype.getMembers = function () {
-        var _this = this;
         var members;
         var userData;
         var personalData;
-        var source = Rx_1.Observable.forkJoin([
-            this.getUsersData(),
-            this.getUsersPersonalData()
-        ]);
-        source.subscribe(function (data) {
-            userData = data[0];
-            personalData = data[1];
-            console.log('Next: %s', data);
-        }, function (err) {
-            console.log('Error: %s', err);
-        }, function () { return members = _this.combineData(userData, personalData); });
-        return source.toPromise();
-        //return members;
-        /*
-        return this.http.get(this.url + 'user')
-            .toPromise() // visual studio snapt niet dat de toPromise toegevoegd is
-            .then(response => response.json().Users as Member[])
-            .catch(this.handleError);
-        */
-        //return Promise.resolve(this.MEMBERS);
+        var membersService = this;
+        var membersPromise;
+        // Deze observer wacht tot de data is samengesteld
+        return Rx_1.Observable.create(function subscribe(observer) {
+            // Deze obverver haalt de data op
+            var source = Rx_1.Observable.forkJoin([
+                membersService.getUsersData(),
+                membersService.getUsersPersonalData()
+            ]);
+            source.subscribe(function (data) {
+                userData = data[0];
+                personalData = data[1];
+            }, function (err) {
+                console.log('Error: %s', err);
+                observer.error(err);
+            }, function () {
+                members = membersService.combineData(userData, personalData);
+                observer.next(members);
+                observer.complete();
+            });
+            // Deze functie wordt gebruikt om een subscription te annuleren.
+            return function unsubscribe() {
+                userData = null;
+                personalData = null;
+            };
+        });
     };
     /**
      * Deze functie wordt gebruikt om gebruikersinformatie uit meerdere arrays te fuseren, zodat er een enkele array ontstaat. Deze array bevat members objecten, die alle verschillende data bevatten.
@@ -59,23 +59,14 @@ var MembersService = (function () {
     MembersService.prototype.combineData = function (usersData, personalData) {
         var members = [];
         var personDataIterator = 0;
-        console.log(usersData);
-        console.log(personalData);
-        console.log("userID: " + usersData[0].Id);
-        console.log("Dit is de lengte: " + usersData.length);
         for (var i = 0; i < usersData.length; i++) {
-            console.log("Dit is de for lus");
-            console.log(i);
-            console.log("userdata: " + usersData[i].Id);
-            console.log("person: " + personalData[personDataIterator].UserId);
             if (personDataIterator < personalData.length) {
-                console.log("");
                 while (true) {
                     if (personalData[personDataIterator].UserId == usersData[i].Id) {
                         var member = new member_1.Member;
                         member.Id = usersData[i].Id;
                         member.UserData = usersData[i];
-                        member.UserDataPersonal = personalData[personDataIterator];
+                        member.PersonalData = personalData[personDataIterator];
                         members.push(member);
                         personDataIterator++;
                         break;
@@ -89,7 +80,6 @@ var MembersService = (function () {
                 }
             }
         }
-        //console.log("Members: " + members[0].UserData.Id);
         return members;
     };
     MembersService.prototype.getUsersData = function () {

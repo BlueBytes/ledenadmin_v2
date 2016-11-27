@@ -5,7 +5,6 @@
 <!--<div>Select type: <select ng-model="types.selectedType" ng-options="type.type for type in types.availableTypes track by type.id" required></select></div>-->
 <br>
 <div>
-    Dit zijn de leden: {{members}}
 	<table>
 		<tr>
 			<td style="width:30px"><b>id</b></td>
@@ -18,8 +17,9 @@
 		</tr>
         <tr *ngFor="let member of members">
             <td>{{member.Id}}</td>
-            <td>{{member.Email}}</td>
-            <td>{{member.Type}}</td>
+            <td>{{member.UserData.Email}}</td>
+            <td>{{member.UserData.Type}}</td>
+            <td>{{member.PersonalData.NamePrefix}} {{member.PersonalData.NameFirst}}  {{member.PersonalData.NameInfix}} {{member.PersonalData.NameLast}} {{member.PersonalData.NameSuffix}}</td>
             <td><a href="#viewMember/{{member.Id}}">View</a></td>
             <td><a href="#editMember/{{member.Id}}">Edit</a></td>
             <td><a href="#unregisterMember/{{member.Id}}">Unregister</a></td>

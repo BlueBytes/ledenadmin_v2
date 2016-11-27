@@ -1,7 +1,7 @@
 ﻿export class Member {
     Id: number;
     UserData: DataUser;
-    UserDataPersonal: DataPersonal;
+    PersonalData: DataPersonal;
 }
 
 export class DataUser {

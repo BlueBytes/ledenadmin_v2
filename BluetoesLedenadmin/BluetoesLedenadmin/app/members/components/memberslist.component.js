@@ -17,16 +17,11 @@ var MembersListComponent = (function () {
     }
     MembersListComponent.prototype.ngOnInit = function () {
         var _this = this;
-        var promise = this.membersService.getMembers();
-        promise.then(function (members) { return _this.members = members; });
-        //this.members = this.membersService.getMembers();
-        //this.membersService.getMembers().resolve(this.members)
+        this.membersService.getMembers().subscribe(function (x) { return _this.members = x; });
     };
     MembersListComponent = __decorate([
         core_1.Component({
             selector: 'dashboard',
-            //templateUrl: './app/members/views/membersList.html'
-            //template: `<h1>Members list</h1>`,
             templateUrl: './app/members/views/membersList.html',
             providers: [members_service_1.MembersService]
         }), 
