@@ -20,9 +20,9 @@
             <td>{{member.UserData.Email}}</td>
             <td>{{member.UserData.Type}}</td>
             <td>{{member.PersonalData.NamePrefix}} {{member.PersonalData.NameFirst}}  {{member.PersonalData.NameInfix}} {{member.PersonalData.NameLast}} {{member.PersonalData.NameSuffix}}</td>
-            <td><a href="#viewMember/{{member.Id}}">View</a></td>
-            <td><a href="#editMember/{{member.Id}}">Edit</a></td>
-            <td><a href="#unregisterMember/{{member.Id}}">Unregister</a></td>
+            <td><a routerLink="member/{{member.Id}}">View</a></td>
+            <td><a routerLink="edit/{{member.Id}}">Edit</a></td>
+            <td><a routerLink="unregister/{{member.Id}}">Unregister</a></td>
         </tr>
 	</table>
 </div>
